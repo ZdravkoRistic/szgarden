@@ -20,7 +20,7 @@ export default function KontaktPage() {
             <div className="mt-6 space-y-4 text-stone-700">
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Telefon</p>
-                <p className="mt-2 text-xl font-semibold text-stone-950">064 123 4567</p>
+                <p className="mt-2 text-xl font-semibold text-stone-950">061 371 00 54</p>
               </div>
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Lokacija</p>

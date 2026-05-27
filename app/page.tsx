@@ -26,7 +26,7 @@ export default function Home() {
                 <div className="rounded-3xl bg-white border border-stone-200 p-5 shadow-sm">
                   <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Kontakt osoba</p>
                   <p className="mt-2 text-xl font-semibold text-stone-950">Stefan</p>
-                  <p className="mt-1 text-sm text-stone-600">Telefon: 064 123 4567</p>
+                  <p className="mt-1 text-sm text-stone-600">Telefon: 061 371 00 54</p>
                 </div>
                 <div className="rounded-3xl bg-emerald-600/10 border border-emerald-200 p-5 shadow-sm">
                   <p className="text-sm uppercase tracking-[0.2em] text-emerald-700">Minimalna dijagnostika</p>

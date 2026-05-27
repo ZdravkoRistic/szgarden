@@ -8,7 +8,7 @@ export default function Footer() {
         </div>
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-400">Kontakt</p>
-          <p className="mt-4 text-sm text-stone-200">Telefon: 064 123 4567</p>
+          <p className="mt-4 text-sm text-stone-200">Telefon: 061 371 00 54</p>
         </div>
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-400">Usluge</p>
