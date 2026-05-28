@@ -17,20 +17,19 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { url, caption, mediaType } = body;
-    if (!url || typeof url !== "string") {
+    const { base64, caption, mediaType } = body;
+    
+    if (!base64 || typeof base64 !== "string") {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
-    // mediaType: 'image' | 'video' (optional). If not provided, try to infer.
+
     let mType = mediaType;
     if (!mType) {
-      const u = url.toLowerCase();
-      if (u.includes("youtube.com") || u.includes("youtu.be") || u.endsWith(".mp4")) mType = "video";
-      else mType = "image";
+      mType = base64.includes("data:video/") ? "video" : "image";
     }
 
     const { db } = await connectToDatabase();
-    const doc = { url, caption: caption || null, mediaType: mType, createdAt: new Date() };
+    const doc = { base64, caption: caption || null, mediaType: mType, createdAt: new Date() };
     const result = await db.collection("gallery").insertOne(doc);
     return NextResponse.json({ insertedId: result.insertedId });
   } catch (err) {
