@@ -10,12 +10,16 @@ type ImageItem = {
   createdAt?: string;
 };
 
+const ADMIN_PASSWORD = "zsgarden2026";
+
 export default function GalleryClient() {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [password, setPassword] = useState("");
+  const [authed, setAuthed] = useState(() => Boolean(typeof window !== "undefined" && localStorage.getItem("zsg_gal_auth")));
 
   useEffect(() => {
     fetchImages();
@@ -87,6 +91,22 @@ export default function GalleryClient() {
     }
   }
 
+  function handlePasswordSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setAuthed(true);
+      localStorage.setItem("zsg_gal_auth", "1");
+      setPassword("");
+    } else {
+      alert("Lozinka ne valja");
+    }
+  }
+
+  function handleLogout() {
+    setAuthed(false);
+    localStorage.removeItem("zsg_gal_auth");
+  }
+
   return (
     <div className="space-y-6">
       {/* Featured video (or placeholder) */}
@@ -128,38 +148,68 @@ export default function GalleryClient() {
                   <img src={img.base64} alt={img.caption || "ZS GARDEN"} className="w-full h-40 object-cover" />
                 )}
                 {img.caption && <div className="p-2 text-sm text-stone-700">{img.caption}</div>}
-                <button onClick={() => handleDelete(img._id)} className="absolute top-2 right-2 bg-white/90 text-red-600 px-2 py-1 rounded text-sm">Obriši</button>
+                {authed && (
+                  <button onClick={() => handleDelete(img._id)} className="absolute top-2 right-2 bg-white/90 text-red-600 px-2 py-1 rounded text-xs">×</button>
+                )}
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Upload panel - ispod galerije */}
-      <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4 max-w-xl">
-        <form onSubmit={handleUpload} className="flex flex-col gap-2">
-          <input
-            type="file"
-            accept="image/*,video/*"
-            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-            className="border rounded px-3 py-2"
-          />
-          <input
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            placeholder="Kratak opis (opciono)"
-            className="border rounded px-3 py-2"
-          />
-          <button
-            type="submit"
-            disabled={uploading || !selectedFile}
-            className="bg-emerald-600 text-white px-4 py-2 rounded disabled:bg-stone-400"
-          >
-            {uploading ? "Slanje..." : "Pošalji"}
-          </button>
-        </form>
-        <p className="mt-3 text-xs text-stone-600">Učitajte slike i videe sa računara.</p>
-      </div>
+      {/* Upload panel - ispod galerije - DISKRETNO */}
+      {!authed ? (
+        <div className="flex justify-center py-4">
+          <form onSubmit={handlePasswordSubmit} className="flex gap-2">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Lozinka"
+              className="text-sm border border-stone-200 rounded px-3 py-1.5 focus:outline-none focus:border-emerald-400"
+            />
+            <button
+              type="submit"
+              className="text-sm bg-emerald-600 text-white px-3 py-1.5 rounded hover:bg-emerald-700 transition"
+            >
+              Unlock
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div className="py-6 border-t border-stone-100 mt-6">
+          <div className="flex flex-col gap-3 max-w-md">
+            <input
+              type="file"
+              accept="image/*,video/*"
+              onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+              className="text-sm border border-stone-200 rounded px-3 py-2 focus:outline-none focus:border-emerald-400"
+            />
+            <input
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              placeholder="Opis (opciono)"
+              className="text-sm border border-stone-200 rounded px-3 py-2 focus:outline-none focus:border-emerald-400"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleUpload}
+                disabled={uploading || !selectedFile}
+                className="text-sm bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 disabled:bg-stone-300 transition"
+              >
+                {uploading ? "..." : "Upload"}
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-sm border border-stone-200 text-stone-600 px-3 py-2 rounded hover:bg-stone-50 transition"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
