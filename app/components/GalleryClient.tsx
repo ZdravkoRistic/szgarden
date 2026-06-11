@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ImageItem = {
   _id?: string;
@@ -58,6 +58,7 @@ export default function GalleryClient() {
   const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(() => Boolean(typeof window !== "undefined" && localStorage.getItem("zsg_gal_auth")));
   const [page, setPage] = useState(1);
@@ -114,6 +115,12 @@ export default function GalleryClient() {
     }
   }
 
+  function resetFileInput() {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
+
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedFile) return alert("Odaberite fajl");
@@ -133,6 +140,7 @@ export default function GalleryClient() {
       });
       if (!res.ok) throw new Error("Upload failed");
       setSelectedFile(null);
+      resetFileInput();
       setCaption("");
       await Promise.all([fetchImages(1), fetchFeaturedVideo()]);
     } catch (err) {
@@ -181,7 +189,17 @@ export default function GalleryClient() {
       {/* Gallery grid */}
       <div className="mt-2">
         {loading ? (
-          <div>Učitavanje...</div>
+          <div className="space-y-4">
+            <div className="text-sm font-semibold text-stone-700">Učitavanje galerije...</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="rounded-3xl border border-stone-200 bg-stone-100 p-4 shadow-sm animate-pulse">
+                  <div className="h-40 rounded-2xl bg-stone-200" />
+                  <div className="mt-3 h-3 w-5/6 rounded-full bg-stone-200" />
+                </div>
+              ))}
+            </div>
+          </div>
         ) : galleryItems.length === 0 ? (
           <div className="rounded-2xl border border-stone-200 bg-stone-50 p-8 text-center text-stone-700">Galerija je trenutno prazna — biće dopunjena kasnije.</div>
         ) : (
@@ -334,25 +352,40 @@ export default function GalleryClient() {
       ) : (
         <div className="py-6 border-t border-stone-100 mt-6">
           <div className="flex flex-col gap-3 max-w-md">
-            <input
-              type="file"
-              accept="image/*,video/*"
-              onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-              className="text-sm border border-stone-200 rounded px-3 py-2 focus:outline-none focus:border-emerald-400"
-            />
+            <div className="space-y-3">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex items-center justify-center rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition hover:border-emerald-300 hover:text-emerald-900"
+                >
+                  Izaberi fajl
+                </button>
+                <div className="min-w-0 text-sm text-stone-600 truncate rounded-full border border-stone-200 bg-stone-50 px-3 py-2">
+                  {selectedFile ? selectedFile.name : "Nema izabranog fajla"}
+                </div>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,video/*"
+                onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                className="hidden"
+              />
+            </div>
             <input
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
               placeholder="Opis (opciono)"
               className="text-sm border border-stone-200 rounded px-3 py-2 focus:outline-none focus:border-emerald-400"
             />
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={handleUpload}
                 disabled={uploading || !selectedFile}
                 className="text-sm bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 disabled:bg-stone-300 transition"
               >
-                {uploading ? "..." : "Upload"}
+                {uploading ? "Učitavanje..." : "Upload"}
               </button>
               <button
                 type="button"
