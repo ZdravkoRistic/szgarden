@@ -24,9 +24,9 @@ function getExtensionFromContentType(contentType: string) {
   return subtype.split(";")[0];
 }
 
-function buildFilename(id: unknown, contentType: string) {
+function buildFilename(id: string, contentType: string) {
   const extension = getExtensionFromContentType(contentType);
-  return `gallery-${id.toString()}.${extension}`;
+  return `gallery-${id}.${extension}`;
 }
 
 export async function GET(request: Request) {
@@ -87,9 +87,8 @@ export async function GET(request: Request) {
 
       try {
         const { contentType, buffer } = decodeBase64DataUrl(doc.base64);
-        const filename = buildFilename(doc._id, contentType);
+        const filename = buildFilename(String(doc._id), contentType);
         const file = new Blob([buffer], { type: contentType });
-
         const options: Record<string, unknown> = {
           access: "public",
           addRandomSuffix: false,
