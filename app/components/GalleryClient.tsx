@@ -215,12 +215,12 @@ export default function GalleryClient() {
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") openLightbox(index);
                     }}
-                    className="group border rounded overflow-hidden relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="group border rounded overflow-hidden relative cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-stone-100"
                   >
                     <img
                       src={getMediaSource(img)}
                       alt={img.caption || "ZS GARDEN"}
-                      className="w-full h-40 object-cover transition duration-300 group-hover:scale-105"
+                      className="w-full h-40 object-contain transition duration-300 group-hover:scale-105"
                       loading="lazy"
                       decoding="async"
                     />
