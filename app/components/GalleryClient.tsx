@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type ImageItem = {
   _id?: string;
   base64?: string;
+  url?: string;
   caption?: string;
   mediaType?: "image" | "video";
   createdAt?: string;
@@ -61,6 +62,8 @@ export default function GalleryClient() {
   }, []);
 
   const galleryItems = images;
+
+  const getMediaSource = (item: ImageItem) => item.url ?? item.base64 ?? "";
 
   async function fetchImages(pageNumber = 1) {
     setLoading(true);
@@ -171,7 +174,7 @@ export default function GalleryClient() {
               {galleryItems.map((img) => (
                 <div key={img._id || img.base64} className="border rounded overflow-hidden relative">
                   <img
-                    src={img.base64}
+                    src={getMediaSource(img)}
                     alt={img.caption || "ZS GARDEN"}
                     className="w-full h-40 object-cover"
                     loading="lazy"
@@ -211,7 +214,7 @@ export default function GalleryClient() {
         {featuredVideo ? (
           <div className="rounded-2xl overflow-hidden shadow-sm mt-4">
             <video className="w-full max-h-[520px] object-cover" controls>
-              <source src={featuredVideo.base64} type="video/mp4" />
+              <source src={getMediaSource(featuredVideo)} type="video/mp4" />
             </video>
             {featuredVideo.caption && <div className="p-4 text-sm text-stone-700">{featuredVideo.caption}</div>}
           </div>

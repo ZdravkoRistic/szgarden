@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+import { uploadMediaToStorage } from "../../../lib/galleryStorage";
 
 // TODO: transition to Vercel Storage for media files.
 // Current implementation saves base64 data in MongoDB. After storage is enabled,
@@ -43,15 +44,29 @@ export async function POST(request: Request) {
       mType = base64.includes("data:video/") ? "video" : "image";
     }
 
-    // In the future, replace this Mongo-stored base64 with a Vercel Storage URL.
-    // Example:
-    // const url = await uploadToVercelStorage(base64, mediaType);
-    // const doc = { url, caption: caption || null, mediaType: mType, createdAt: new Date() };
+    let url: string | null = null;
+    try {
+      url = await uploadMediaToStorage(base64, mType);
+    } catch (storageError) {
+      console.error("Vercel Storage upload failed:", storageError);
+      url = null;
+    }
 
     const { db } = await connectToDatabase();
-    const doc = { base64, caption: caption || null, mediaType: mType, createdAt: new Date() };
+    const doc: Record<string, unknown> = {
+      caption: caption || null,
+      mediaType: mType,
+      createdAt: new Date(),
+    };
+
+    if (url) {
+      doc.url = url;
+    } else {
+      doc.base64 = base64;
+    }
+
     const result = await db.collection("gallery").insertOne(doc);
-    return NextResponse.json({ insertedId: result.insertedId });
+    return NextResponse.json({ insertedId: result.insertedId, url });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Insert failed" }, { status: 500 });
