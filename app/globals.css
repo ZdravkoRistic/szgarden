@@ -20,7 +20,12 @@
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(237,248,240,0.9), rgba(246,251,245,0.9));
+  background-size: 24px 24px, 100% 100%;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

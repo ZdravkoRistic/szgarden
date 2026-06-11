@@ -1,8 +1,49 @@
 ZS GARDEN - Lokalno pokretanje i MongoDB instrukcije
 
-Osnovno
+## GitHub & Vercel Deployment
+
+### Priprema za GitHub Push
+1. Inicijalizujte git (ako već nije):
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit: ZS GARDEN website with MongoDB backend, contact form, gallery, and FAQ"
+   ```
+
+2. Kreirajte novi repozitorijum na GitHub-u (https://github.com/new)
+   - Naziv: `zs-garden` (ili drugi naziv po želji)
+   - Vidljivost: Public ili Private
+
+3. Dodajte remote i push-ujte kod:
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/zs-garden.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+### Deploy na Vercel
+1. Idite na https://vercel.com i prijavite se sa GitHub nalogom
+2. Kliknite "New Project" → Izaberite GitHub repozitorijum `zs-garden`
+3. Pod "Environment Variables" dodajte:
+   - `MONGODB_URI` — vaša MongoDB Atlas connection string
+   - `MONGODB_DB` — `zs_garden`
+   - `SMTP_HOST` — `smtp.gmail.com`
+   - `SMTP_PORT` — `465`
+   - `SMTP_USER` — `zsgarden.rs@gmail.com`
+   - `SMTP_PASS` — app password (hbxa xjgz dsff byrh)
+   - `CONTACT_RECIPIENT` — `zsgarden.rs@gmail.com`
+   - `GALLERY_PASSWORD` — `zsgarden2026`
+
+4. Kliknite "Deploy" — sajt će biti dostupan na `https://zs-garden.vercel.app` (ili na vašem custom domenu)
+
+### Korišćenje Vlastitog Domena
+1. Na Vercel -> Project Settings -> Domains dodajte `zsgarden.rs`
+2. Pratite uputstva za DNS konfiguraciju (dodajte CNAME ili A record kod registratora)
+
+## Osnovno
 - Projekat koristi Next.js (App Router), Tailwind CSS i MongoDB za backend storage metapodataka (URL-ovi slika i kontakt poruke).
 - Slike se NE smeju čuvati u MongoDB-u; čuvaju se samo URL-ovi (preporučeno: Cloudinary ili Vercel Blob).
+
 
 Env promenljive (locally)
 1. Kreirajte fajl `.env.local` u korenu projekta sa sledećim varijablama:

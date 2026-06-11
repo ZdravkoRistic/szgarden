@@ -3,13 +3,35 @@ import Footer from "../components/Footer";
 import ContactForm from "../components/ContactForm";
 
 export const metadata = {
-  title: "Kontakt - ZS GARDEN",
-  description: "Kontaktirajte nas za procenu i dogovor oko održavanja i kosenja trave u Čukarici."
+  title: "Kontakt — ZS GARDEN | Rezervacija i procena terena",
+  description: "Kontaktirajte ZS GARDEN za brzu procenu terena i rezervaciju usluga. Dostupni smo na 061 371 00 54 ili popunite formu za kontakt. Minimalna procena: 1500 RSD.",
+  keywords: "kontakt, rezervacija, procena terena, kosenje trave, čukarica beograd",
+  canonical: "https://zsgarden.rs/kontakt"
 };
 
 export default function KontaktPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Početna",
+        "item": "https://zsgarden.rs"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Kontakt",
+        "item": "https://zsgarden.rs/kontakt"
+      }
+    ]
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-white text-stone-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-stone-50 text-stone-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] items-start">

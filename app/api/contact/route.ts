@@ -23,8 +23,16 @@ async function trySendEmail({ name, phone, message }: { name: string; phone: str
 }
 
 export async function POST(request: Request) {
+  let body: { name?: string; phone?: string; message?: string | null };
+
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch (err) {
+    console.warn("Invalid JSON body in contact request:", err);
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  try {
     const { name, phone, message } = body;
     if (!name || !phone) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
 

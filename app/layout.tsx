@@ -13,8 +13,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ZS GARDEN — Kosenje trave i odrzavanje vrtova",
-  description: "ZS GARDEN - Profesionalne usluge kosenja trave, orezivanja ograde i seče stabala u Beogradu (Čukarica). Kontakt: Stefan.",
+  title: "ZS GARDEN — Profesionalne usluge kosenja trave, sece stabala i odrzavanja baste u Beogradu",
+  description: "ZS GARDEN - Profesionalno kosenje trave, sisanje ograda, seca stabala, freziranje baste i dvorista u Cukarici, Beogradu. Brza procena: 061 371 00 54",
+  keywords: "kosenje trave, seca stabala, sisanje ograde, freziranje baste, cukarica, beograd",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  robots: "index, follow",
+  authors: [{ name: "ZS GARDEN" }],
+  openGraph: {
+    type: "website",
+    locale: "sr_RS",
+    url: "https://zsgarden.rs",
+    siteName: "ZS GARDEN",
+    title: "ZS GARDEN — Profesionalne usluge kosenja trave i odrzavanja baste u Beogradu",
+    description: "Profesionalne usluge odrzavanja zelenih povrsina u Cukarici, Beograd. Kosenje trave, sisanje ograda, seca stabala, freziranje baste."
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ZS GARDEN — Kosenje trave i odrzavanje vrta",
+    description: "Profesionalne usluge u Beogradu, Cukarica"
+  }
 };
 
 export default function RootLayout({
