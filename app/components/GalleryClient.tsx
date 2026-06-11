@@ -11,35 +11,79 @@ type ImageItem = {
 };
 
 const ADMIN_PASSWORD = "zsgarden2026";
+const MAX_IMAGE_WIDTH = 1600;
+const MAX_IMAGE_HEIGHT = 1200;
+
+async function resizeImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = new Image();
+      image.onload = () => {
+        const ratio = Math.min(
+          MAX_IMAGE_WIDTH / image.width,
+          MAX_IMAGE_HEIGHT / image.height,
+          1
+        );
+        const width = Math.round(image.width * ratio);
+        const height = Math.round(image.height * ratio);
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("Canvas not supported"));
+        ctx.drawImage(image, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8));
+      };
+      image.onerror = () => reject(new Error("Image load failed"));
+      image.src = reader.result as string;
+    };
+    reader.onerror = () => reject(new Error("File read failed"));
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function GalleryClient() {
   const [images, setImages] = useState<ImageItem[]>([]);
+  const [featuredVideo, setFeaturedVideo] = useState<ImageItem | null>(null);
   const [loading, setLoading] = useState(false);
   const [caption, setCaption] = useState("");
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(() => Boolean(typeof window !== "undefined" && localStorage.getItem("zsg_gal_auth")));
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
-    fetchImages();
+    fetchImages(1);
+    fetchFeaturedVideo();
   }, []);
 
-  // derive featured video and remaining items
-  const videos = images.filter((i) => i.mediaType === "video");
-  const featuredVideo = videos.length > 0 ? videos[0] : null;
-  const galleryItems = images.filter((i) => !(featuredVideo && i._id === featuredVideo._id));
+  const galleryItems = images;
 
-  async function fetchImages() {
+  async function fetchImages(pageNumber = 1) {
     setLoading(true);
     try {
-      const res = await fetch("/api/gallery");
+      const res = await fetch(`/api/gallery?page=${pageNumber}&limit=4&type=image`);
       const data = await res.json();
       setImages(data || []);
+      setHasMore(Array.isArray(data) && data.length === 4);
+      setPage(pageNumber);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchFeaturedVideo() {
+    try {
+      const res = await fetch(`/api/gallery?page=1&limit=1&type=video`);
+      const data = await res.json();
+      setFeaturedVideo(Array.isArray(data) && data.length > 0 ? data[0] : null);
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -48,24 +92,30 @@ export default function GalleryClient() {
     if (!selectedFile) return alert("Odaberite fajl");
     setUploading(true);
     try {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64 = event.target?.result as string;
-        // Determine media type from file
-        let mediaType = "image";
-        if (selectedFile.type.startsWith("video/")) mediaType = "video";
+      let base64: string;
+      let mediaType = "image";
 
-        const res = await fetch("/api/gallery", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ base64, caption, mediaType })
+      if (selectedFile.type.startsWith("video/")) {
+        mediaType = "video";
+        const reader = new FileReader();
+        base64 = await new Promise((resolve, reject) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error("File read failed"));
+          reader.readAsDataURL(selectedFile);
         });
-        if (!res.ok) throw new Error("Upload failed");
-        setSelectedFile(null);
-        setCaption("");
-        await fetchImages();
-      };
-      reader.readAsDataURL(selectedFile);
+      } else {
+        base64 = await resizeImage(selectedFile);
+      }
+
+      const res = await fetch("/api/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ base64, caption, mediaType })
+      });
+      if (!res.ok) throw new Error("Upload failed");
+      setSelectedFile(null);
+      setCaption("");
+      await Promise.all([fetchImages(1), fetchFeaturedVideo()]);
     } catch (err) {
       console.error(err);
       alert("Greška pri slanju fajla.");
@@ -109,50 +159,68 @@ export default function GalleryClient() {
 
   return (
     <div className="space-y-6">
-      {/* Featured video (or placeholder) */}
-      {featuredVideo ? (
-        <div className="rounded-2xl overflow-hidden shadow-sm">
-          {featuredVideo.mediaType === "video" ? (
-            <video className="w-full max-h-[520px] object-cover" controls>
-              <source src={featuredVideo.base64} type="video/mp4" />
-            </video>
-          ) : (
-            <img src={featuredVideo.base64} alt={featuredVideo.caption || "featured"} className="w-full" />
-          )}
-          {featuredVideo.caption && <div className="p-4 text-sm text-stone-700">{featuredVideo.caption}</div>}
-        </div>
-      ) : (
-        <div className="rounded-2xl overflow-hidden shadow-sm bg-stone-100 border border-stone-200 aspect-video flex items-center justify-center">
-          <div className="text-center p-4">
-            <p className="text-emerald-600 font-semibold">Video će biti postavljen ovde</p>
-            <p className="text-sm text-stone-600 mt-2">Prostor rezervisan za istaknuti video materijal.</p>
-          </div>
-        </div>
-      )}
-
-      {/* Gallery grid (excluding featured) */}
+      {/* Gallery grid */}
       <div className="mt-2">
         {loading ? (
           <div>Učitavanje...</div>
         ) : galleryItems.length === 0 ? (
           <div className="rounded-2xl border border-stone-200 bg-stone-50 p-8 text-center text-stone-700">Galerija je trenutno prazna — biće dopunjena kasnije.</div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {galleryItems.map((img) => (
-              <div key={img._id || img.base64} className="border rounded overflow-hidden relative">
-                {img.mediaType === "video" ? (
-                  <video className="w-full h-40 object-cover" controls>
-                    <source src={img.base64} type="video/mp4" />
-                  </video>
-                ) : (
-                  <img src={img.base64} alt={img.caption || "ZS GARDEN"} className="w-full h-40 object-cover" />
-                )}
-                {img.caption && <div className="p-2 text-sm text-stone-700">{img.caption}</div>}
-                {authed && (
-                  <button onClick={() => handleDelete(img._id)} className="absolute top-2 right-2 bg-white/90 text-red-600 px-2 py-1 rounded text-xs">×</button>
-                )}
-              </div>
-            ))}
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {galleryItems.map((img) => (
+                <div key={img._id || img.base64} className="border rounded overflow-hidden relative">
+                  <img
+                    src={img.base64}
+                    alt={img.caption || "ZS GARDEN"}
+                    className="w-full h-40 object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {img.caption && <div className="p-2 text-sm text-stone-700">{img.caption}</div>}
+                  {authed && (
+                    <button onClick={() => handleDelete(img._id)} className="absolute top-2 right-2 bg-white/90 text-red-600 px-2 py-1 rounded text-xs">×</button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                disabled={page <= 1}
+                onClick={() => fetchImages(page - 1)}
+                className="rounded-full bg-stone-200 text-stone-700 px-5 py-2 text-sm hover:bg-stone-300 transition disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                ⬅ Levo
+              </button>
+              <span className="flex items-center text-sm text-stone-600">Stranica {page}</span>
+              <button
+                disabled={!hasMore}
+                onClick={() => fetchImages(page + 1)}
+                className="rounded-full bg-emerald-600 text-white px-5 py-2 text-sm hover:bg-emerald-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Desno ➡
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Video section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold">Video primer</h2>
+        {featuredVideo ? (
+          <div className="rounded-2xl overflow-hidden shadow-sm mt-4">
+            <video className="w-full max-h-[520px] object-cover" controls>
+              <source src={featuredVideo.base64} type="video/mp4" />
+            </video>
+            {featuredVideo.caption && <div className="p-4 text-sm text-stone-700">{featuredVideo.caption}</div>}
+          </div>
+        ) : (
+          <div className="rounded-2xl overflow-hidden shadow-sm bg-stone-100 border border-stone-200 aspect-video flex items-center justify-center mt-4">
+            <div className="text-center p-4">
+              <p className="text-emerald-600 font-semibold">Video će biti postavljen ovde</p>
+              <p className="text-sm text-stone-600 mt-2">Postavi video da se prikaže ispod galerije.</p>
+            </div>
           </div>
         )}
       </div>
