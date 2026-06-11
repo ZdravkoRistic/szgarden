@@ -220,7 +220,7 @@ export default function GalleryClient() {
                     <img
                       src={getMediaSource(img)}
                       alt={img.caption || "ZS GARDEN"}
-                      className="w-full h-40 object-contain transition duration-300 group-hover:scale-105"
+                      className="w-full aspect-square object-cover transition duration-300 group-hover:scale-105"
                       loading="lazy"
                       decoding="async"
                     />
