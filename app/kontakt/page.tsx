@@ -6,7 +6,7 @@ export const metadata = {
   title: "Kontakt — ZS GARDEN | Rezervacija i procena terena",
   description: "Kontaktirajte ZS GARDEN za brzu procenu terena i rezervaciju usluga. Dostupni smo na 061 371 00 54 ili popunite formu za kontakt. Minimalna procena: 1500 RSD.",
   keywords: "kontakt, rezervacija, procena terena, kosenje trave, čukarica beograd",
-  canonical: "https://zsgarden.rs/kontakt"
+  canonical: "https://zsgarden.org/kontakt"
 };
 
 export default function KontaktPage() {
@@ -18,13 +18,13 @@ export default function KontaktPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Početna",
-        "item": "https://zsgarden.rs"
+        "item": "https://zsgarden.org"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Kontakt",
-        "item": "https://zsgarden.rs/kontakt"
+        "item": "https://zsgarden.org/kontakt"
       }
     ]
   };

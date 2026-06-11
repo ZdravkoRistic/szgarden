@@ -55,7 +55,7 @@
    - Smanjenje veličine slika i lazy loading
 
 3. **SSL/HTTPS Verification**
-   - Verifikuj da je https://zsgarden.rs dostupan
+   - Verifikuj da je https://zsgarden.org dostupan
    - HSTS header setup (preload list za bolju sigurnost)
 
 4. **Before/After Gallery**
@@ -118,7 +118,7 @@
 ## 📊 Recommended Monitoring
 
 ### Google Search Console
-1. Dodaj sajt: https://zsgarden.rs
+1. Dodaj sajt: https://zsgarden.org
 2. Verificiraj vlasništvo preko DNS ili HTML file
 3. Prilogaj sitemap.xml
 4. Monitoriraj indexirane stranice
@@ -140,7 +140,7 @@
 
 - [ ] Git initialized i push-ovan na GitHub
 - [ ] Vercel deployment završen sa env variables
-- [ ] robots.txt i sitemap.xml dostupni na https://zsgarden.rs/robots.txt
+- [ ] robots.txt i sitemap.xml dostupni na https://zsgarden.org/robots.txt
 - [ ] Google Search Console - Sajt dodan i verifikovan
 - [ ] Google Analytics - Setup završen i tracking radio
 - [ ] Google My Business - Profil kreiraj ako nemaš

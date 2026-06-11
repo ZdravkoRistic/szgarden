@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://zsgarden.rs/sitemap.xml
+Sitemap: https://zsgarden.org/sitemap.xml
 
 User-agent: Googlebot
 Allow: /

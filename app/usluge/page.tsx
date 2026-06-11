@@ -5,7 +5,7 @@ export const metadata = {
   title: "Usluge — ZS GARDEN | Košenje, seča stabala, freziranje bašte",
   description: "Kompletan pregled usluga ZS GARDEN: profesionalno košenje trave, seča stabala do 20m, freziranje bašte sa kulatorem, šišanje živih ograda, obrada i održavanje zemljišta u Čukarici.",
   keywords: "košenje trave, seča stabala, freziranje bašte, šišanje žive ograde, održavanje vrta, Čukarica Beograd",
-  canonical: "https://zsgarden.rs/usluge"
+  canonical: "https://zsgarden.org/usluge"
 };
 
 export default function UslugePage() {
@@ -17,13 +17,13 @@ export default function UslugePage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Početna",
-        "item": "https://zsgarden.rs"
+        "item": "https://zsgarden.org"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Usluge",
-        "item": "https://zsgarden.rs/usluge"
+        "item": "https://zsgarden.org/usluge"
       }
     ]
   };

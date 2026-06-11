@@ -7,7 +7,7 @@ export const metadata = {
   title: "ZS GARDEN — Košenje trave, seča stabala, freziranje bašte | Čukarica Beograd",
   description: "Profesionalne usluge održavanja zelenih površina u Čukarici, Beograd. Košenje trave, šišanje ograda, seča stabala, freziranje bašte. Brza procena: 061 371 00 54",
   keywords: "košenje trave, seča stabala, šišanje ograde, freziranje bašte, čukarica, beograd, održavanje dvorišta",
-  canonical: "https://zsgarden.rs"
+  canonical: "https://zsgarden.org"
 };
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
     },
     "telephone": "+381613710054",
     "priceRange": "1500 RSD+",
-    "url": "https://zsgarden.rs",
+    "url": "https://zsgarden.org",
     "sameAs": ["https://www.facebook.com/zsgarden", "https://www.instagram.com/zsgarden"],
     "areaServed": "Čukarica, Beograd",
     "serviceType": ["Košenje trave", "Seča stabala", "Šišanje ograda", "Freziranje bašte"]

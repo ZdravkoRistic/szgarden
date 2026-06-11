@@ -37,7 +37,7 @@ ZS GARDEN - Lokalno pokretanje i MongoDB instrukcije
 4. Kliknite "Deploy" — sajt će biti dostupan na `https://zs-garden.vercel.app` (ili na vašem custom domenu)
 
 ### Korišćenje Vlastitog Domena
-1. Na Vercel -> Project Settings -> Domains dodajte `zsgarden.rs`
+1. Na Vercel -> Project Settings -> Domains dodajte `zsgarden.org`
 2. Pratite uputstva za DNS konfiguraciju (dodajte CNAME ili A record kod registratora)
 
 ## Osnovno

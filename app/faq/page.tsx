@@ -5,7 +5,7 @@ export const metadata = {
   title: "FAQ — Česta pitanja | ZS GARDEN",
   description: "Česta pitanja i odgovori o uslugama ZS GARDEN: koliko košta procena terena, kako se obavlja seča stabala, freziranje bašte, šišanje ograda, košenje trave i održavanje zelenih površina.",
   keywords: "česta pitanja, FAQ, košenje trave, seča stabala, freziranje bašte, održavanje ograda",
-  canonical: "https://zsgarden.rs/faq"
+  canonical: "https://zsgarden.org/faq"
 };
 
 export default function FAQPage() {
@@ -68,13 +68,13 @@ export default function FAQPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Početna",
-        "item": "https://zsgarden.rs"
+        "item": "https://zsgarden.org"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "FAQ",
-        "item": "https://zsgarden.rs/faq"
+        "item": "https://zsgarden.org/faq"
       }
     ]
   };

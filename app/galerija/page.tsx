@@ -6,7 +6,7 @@ export const metadata = {
   title: "Galerija — ZS GARDEN | Primeri radova | Beograd",
   description: "Galerija završenih projekata ZS GARDEN: profesionalno kosene travnjake, oblikovane žive ograde, sečena stabla i uređena dvorišta u Čukarici, Beogradu. Prikaz naših radova.",
   keywords: "galerija, primeri radova, košenje trave, uredjenje dvorišta, beograd",
-  canonical: "https://zsgarden.rs/galerija"
+  canonical: "https://zsgarden.org/galerija"
 };
 
 export default function GalerijaPage() {
@@ -18,13 +18,13 @@ export default function GalerijaPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Početna",
-        "item": "https://zsgarden.rs"
+        "item": "https://zsgarden.org"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Galerija",
-        "item": "https://zsgarden.rs/galerija"
+        "item": "https://zsgarden.org/galerija"
       }
     ]
   };

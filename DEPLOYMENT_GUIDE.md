@@ -89,13 +89,13 @@ vercel
 
 ---
 
-## 🌐 Custom Domain Setup (zsgarden.rs)
+## 🌐 Custom Domain Setup (zsgarden.org)
 
 ### Ako koristi Vercel + Custom Domain
 
 1. **Na Vercel Dashboard**:
    - Settings → Domains
-   - Dodaj `zsgarden.rs`
+   - Dodaj `zsgarden.org`
    - Vercel će dati DNS instructions
 
 2. **Na registratoru domena** (np. Godaddy, Namecheap, etc):
@@ -117,7 +117,7 @@ vercel
 
 ```
 1. Idi na https://search.google.com/search-console
-2. Dodaj sajt: https://zsgarden.rs
+2. Dodaj sajt: https://zsgarden.org
 3. Verificiraj vlasništvo:
    - HTML file upload, ili
    - DNS TXT record, ili
@@ -126,9 +126,9 @@ vercel
 
 4. Upload sitemap.xml:
    - Settings → Sitemaps
-   - Dodaj: https://zsgarden.rs/sitemap.xml
+   - Dodaj: https://zsgarden.org/sitemap.xml
 
-5. Proverite prvo na https://zsgarden.rs/robots.txt
+5. Proverite prvo na https://zsgarden.org/robots.txt
    - Trebalo bi videti content (test sa curl ili browser-a)
 ```
 
@@ -171,7 +171,7 @@ export default function RootLayout({ children }) {
    - Kategorija: Landscape Maintenance Services
    - Adresa: Čukarica, Beograd
    - Telefon: 061 371 00 54
-   - Website: https://zsgarden.rs
+   - Website: https://zsgarden.org
    - Business Hours: Po dogovoru
 
 3. Verifikuj adresu (Google će poslati postcard)

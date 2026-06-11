@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "sr_RS",
-    url: "https://zsgarden.rs",
+    url: "https://zsgarden.org",
     siteName: "ZS GARDEN",
     title: "ZS GARDEN — Profesionalne usluge kosenja trave i odrzavanja baste u Beogradu",
     description: "Profesionalne usluge odrzavanja zelenih povrsina u Cukarici, Beograd. Kosenje trave, sisanje ograda, seca stabala, freziranje baste."
