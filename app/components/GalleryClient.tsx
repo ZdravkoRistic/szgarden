@@ -12,8 +12,8 @@ type ImageItem = {
 };
 
 const ADMIN_PASSWORD = "zsgarden2026";
-const MAX_IMAGE_WIDTH = 1600;
-const MAX_IMAGE_HEIGHT = 1200;
+const MAX_IMAGE_WIDTH = 1200;
+const MAX_IMAGE_HEIGHT = 900;
 
 async function resizeImage(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -187,21 +187,22 @@ export default function GalleryClient() {
                 </div>
               ))}
             </div>
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <div className="mt-6 flex justify-center items-center gap-4">
               <button
                 disabled={page <= 1}
                 onClick={() => fetchImages(page - 1)}
-                className="rounded-full bg-stone-200 text-stone-700 px-5 py-2 text-sm hover:bg-stone-300 transition disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-700 shadow-sm transition hover:border-emerald-300 hover:text-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Prethodna stranica galerije"
               >
-                ⬅ Levo
+                <span className="text-lg">←</span>
               </button>
-              <span className="flex items-center text-sm text-stone-600">Stranica {page}</span>
               <button
                 disabled={!hasMore}
                 onClick={() => fetchImages(page + 1)}
-                className="rounded-full bg-emerald-600 text-white px-5 py-2 text-sm hover:bg-emerald-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-500 bg-emerald-600 text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Sledeća stranica galerije"
               >
-                Desno ➡
+                <span className="text-lg">→</span>
               </button>
             </div>
           </>
