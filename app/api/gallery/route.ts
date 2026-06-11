@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     }
 
     let url: string | null = null;
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
+    if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID || process.env.VERCEL_OIDC_TOKEN) {
       try {
         url = await uploadMediaToStorage(file, file.name);
       } catch (storageError) {
