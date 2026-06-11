@@ -15,7 +15,7 @@ const ADMIN_PASSWORD = "zsgarden2026";
 const MAX_IMAGE_WIDTH = 1200;
 const MAX_IMAGE_HEIGHT = 900;
 
-async function resizeImage(file: File): Promise<string> {
+async function resizeImage(file: File): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -34,7 +34,14 @@ async function resizeImage(file: File): Promise<string> {
         const ctx = canvas.getContext("2d");
         if (!ctx) return reject(new Error("Canvas not supported"));
         ctx.drawImage(image, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", 0.8));
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) return reject(new Error("Image processing failed"));
+            resolve(blob);
+          },
+          "image/jpeg",
+          0.75
+        );
       };
       image.onerror = () => reject(new Error("Image load failed"));
       image.src = reader.result as string;
@@ -95,25 +102,17 @@ export default function GalleryClient() {
     if (!selectedFile) return alert("Odaberite fajl");
     setUploading(true);
     try {
-      let base64: string;
-      let mediaType = "image";
+      const mediaType = selectedFile.type.startsWith("video/") ? "video" : "image";
+      const uploadFile = selectedFile.type.startsWith("video/") ? selectedFile : await resizeImage(selectedFile);
 
-      if (selectedFile.type.startsWith("video/")) {
-        mediaType = "video";
-        const reader = new FileReader();
-        base64 = await new Promise((resolve, reject) => {
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = () => reject(new Error("File read failed"));
-          reader.readAsDataURL(selectedFile);
-        });
-      } else {
-        base64 = await resizeImage(selectedFile);
-      }
+      const formData = new FormData();
+      formData.append("file", uploadFile, selectedFile.name);
+      formData.append("caption", caption);
+      formData.append("mediaType", mediaType);
 
       const res = await fetch("/api/gallery", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ base64, caption, mediaType })
+        body: formData,
       });
       if (!res.ok) throw new Error("Upload failed");
       setSelectedFile(null);

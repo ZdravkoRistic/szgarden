@@ -3,10 +3,6 @@ import { connectToDatabase } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import { uploadMediaToStorage } from "../../../lib/galleryStorage";
 
-// TODO: transition to Vercel Storage for media files.
-// Current implementation saves base64 data in MongoDB. After storage is enabled,
-// the POST route should upload files to Vercel Storage and save only metadata + URL.
-
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -32,37 +28,42 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { base64, caption, mediaType } = body;
-    
-    if (!base64 || typeof base64 !== "string") {
-      return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+    const formData = await request.formData();
+    const file = formData.get("file");
+
+    if (!(file instanceof File)) {
+      return NextResponse.json({ error: "File is required" }, { status: 400 });
     }
 
-    let mType = mediaType;
-    if (!mType) {
-      mType = base64.includes("data:video/") ? "video" : "image";
+    const caption = formData.get("caption")?.toString() ?? null;
+    let mediaType = formData.get("mediaType")?.toString() ?? "";
+    if (!mediaType) {
+      mediaType = file.type.startsWith("video/") ? "video" : "image";
     }
 
     let url: string | null = null;
-    try {
-      url = await uploadMediaToStorage(base64, mType);
-    } catch (storageError) {
-      console.error("Vercel Storage upload failed:", storageError);
-      url = null;
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      try {
+        url = await uploadMediaToStorage(file, file.name);
+      } catch (storageError) {
+        console.error("Vercel Storage upload failed:", storageError);
+        url = null;
+      }
     }
 
     const { db } = await connectToDatabase();
     const doc: Record<string, unknown> = {
-      caption: caption || null,
-      mediaType: mType,
+      caption,
+      mediaType,
       createdAt: new Date(),
     };
 
     if (url) {
       doc.url = url;
     } else {
-      doc.base64 = base64;
+      const arrayBuffer = await file.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString("base64");
+      doc.base64 = `data:${file.type};base64,${base64}`;
     }
 
     const result = await db.collection("gallery").insertOne(doc);
