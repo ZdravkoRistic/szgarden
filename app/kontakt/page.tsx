@@ -4,7 +4,7 @@ import ContactForm from "../components/ContactForm";
 
 export const metadata = {
   title: "Kontakt — ZS GARDEN | Rezervacija i procena terena",
-  description: "Kontaktirajte ZS GARDEN za brzu procenu terena i rezervaciju usluga. Dostupni smo na 061 371 00 54 ili popunite formu za kontakt. Minimalna procena: 1500 RSD.",
+  description: "Kontaktirajte ZS GARDEN za brzu procenu terena i rezervaciju usluga. Dostupni smo na 066/57-393-99 ili popunite formu za kontakt. Minimalna procena: 1500 RSD.",
   keywords: "kontakt, rezervacija, procena terena, kosenje trave, čukarica beograd",
   canonical: "https://zsgarden.org/kontakt"
 };
@@ -42,7 +42,7 @@ export default function KontaktPage() {
             <div className="mt-6 space-y-4 text-stone-700">
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Telefon</p>
-                <p className="mt-2 text-xl font-semibold text-stone-950">061 371 00 54</p>
+                <p className="mt-2 text-xl font-semibold text-stone-950">066/57-393-99</p>
               </div>
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Lokacija</p>
