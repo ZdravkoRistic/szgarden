@@ -20,7 +20,7 @@ export default function FAQPage() {
     },
     {
       question: "Koliko košta procena terena?",
-      answer: "Minimalna dijagnostika je 1500 RSD. Ako se dogovori rad, taj iznos se odbija od ukupne cene. Ukoliko se posao ne dogovori, platite se samo za procenu."
+      answer: "Minimalna dijagnostika je 1500 RSD. Ako se dogovori rad, taj iznos se odbija od ukupne cene. Ukoliko se posao ne dogovori, plaćate samo procenu."
     },
     {
       question: "Kako se obavlja seča stabala?",
@@ -48,7 +48,7 @@ export default function FAQPage() {
     },
     {
       question: "Kako da vas kontaktiram?",
-      answer: "Možete nas pozvati na 061 371 00 54 ili pružiti poruku preko naše kontakt forme. Brzo ćemo vam odgovoriti i dogovoriti procenu terena."
+      answer: "Možete nas pozvati na 066/57-393-99 ili pružiti poruku preko naše kontakt forme. Brzo ćemo vam odgovoriti i dogovoriti procenu terena."
     },
     {
       question: "Da li rade za poslovne prostore?",
