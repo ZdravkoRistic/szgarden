@@ -16,7 +16,7 @@ export default function FAQPage() {
     },
     {
       question: "U kojoj oblasti radite?",
-      answer: "Primarna operativna zona je Beograd - Čukarica. Za dodatne lokacije kontaktirajte nas direktno na 061 371 00 54."
+      answer: "Primarna operativna zona je Beograd - Čukarica. Za dodatne lokacije kontaktirajte nas direktno na 066/57-393-99."
     },
     {
       question: "Koliko košta procena terena?",
