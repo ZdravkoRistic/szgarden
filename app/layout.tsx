@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ZS GARDEN — Profesionalne usluge kosenja trave, sece stabala i odrzavanja baste u Beogradu",
-  description: "ZS GARDEN - Profesionalno kosenje trave, sisanje ograda, seca stabala, freziranje baste i dvorista u Cukarici, Beogradu. Brza procena: 061 371 00 54",
+  description: "ZS GARDEN - Profesionalno kosenje trave, sisanje ograda, seca stabala, freziranje baste i dvorista u Cukarici, Beogradu. Brza procena: 066/57-393-99",
   keywords: "kosenje trave, seca stabala, sisanje ograde, freziranje baste, cukarica, beograd",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   robots: "index, follow",
