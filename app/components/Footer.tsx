@@ -8,7 +8,7 @@ export default function Footer() {
         </div>
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-600">Kontakt</p>
-          <p className="mt-4 text-sm text-stone-600">Telefon: 061 371 00 54</p>
+          <p className="mt-4 text-sm text-stone-600">Telefon: 066/57-393-99</p>
           <p className="mt-2 text-sm text-stone-500">Email: zsgarden.rs@gmail.com</p>
         </div>
         <div>
@@ -21,7 +21,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-emerald-100 bg-white/90 px-6 py-4 text-xs text-stone-500 text-center">© 2026 ZS GARDEN. Sve cene po dogovoru. Operativna zona: Beograd - Čukarica.</div>
+      <div className="border-t border-emerald-100 bg-white/90 px-6 py-4 text-xs text-stone-500 text-center">© 2026 ZS GARDEN.</div>
     </footer>
   );
 }
