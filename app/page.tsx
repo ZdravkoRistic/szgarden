@@ -5,7 +5,7 @@ const heroImage = "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?
 
 export const metadata = {
   title: "ZS GARDEN — Košenje trave, seča stabala, freziranje bašte | Čukarica Beograd",
-  description: "Profesionalne usluge održavanja zelenih površina u Čukarici, Beograd. Košenje trave, šišanje ograda, seča stabala, freziranje bašte. Brza procena: 061 371 00 54",
+  description: "Profesionalne usluge održavanja zelenih površina u Čukarici, Beograd. Košenje trave, šišanje ograda, seča stabala, freziranje bašte. Brza procena: 066/57-393-99",
   keywords: "košenje trave, seča stabala, šišanje ograde, freziranje bašte, čukarica, beograd, održavanje dvorišta",
   canonical: "https://zsgarden.org"
 };
@@ -52,7 +52,7 @@ export default function Home() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl border border-green-100 bg-white/90 p-5 shadow-sm transition hover:shadow-md">
                   <p className="text-sm uppercase tracking-[0.2em] text-stone-500">Kontakt</p>
-                  <p className="mt-2 text-xl font-semibold text-stone-950">061 371 00 54</p>
+                  <p className="mt-2 text-xl font-semibold text-stone-950">066/57-393-99</p>
                 </div>
                 <div className="rounded-3xl border border-green-100 bg-white/90 p-5 shadow-sm transition hover:shadow-md">
                   <p className="text-sm uppercase tracking-[0.2em] text-emerald-700 font-medium">Minimalna dijagnostika</p>
